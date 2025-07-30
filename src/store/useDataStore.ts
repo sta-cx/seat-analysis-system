@@ -211,7 +211,19 @@ export const useDataStore = create<数据存储状态>((set, get) => ({
     const { 饼图数据缓存 } = get();
     return 饼图数据缓存.get(品种) || null;
   },
-  
+
+  席位分析数据缓存: new Map(),
+  设置席位分析数据: (品种, 数据) => {
+    const { 席位分析数据缓存 } = get();
+    const newCache = new Map(席位分析数据缓存);
+    newCache.set(品种, 数据);
+    set({ 席位分析数据缓存: newCache });
+  },
+  获取席位分析数据: (品种) => {
+    const { 席位分析数据缓存 } = get();
+    return 席位分析数据缓存.get(品种) || [];
+  },
+
   // ==================== 表格数据缓存 ====================
   持仓表缓存: new Map(),
   设置持仓表数据: (品种, 数据) => {

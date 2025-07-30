@@ -13,6 +13,8 @@ import {
   createFlowLongShortSeriesConfig
 } from '../lib/chartConfig';
 import { cn } from '../lib/utils';
+import HoldingDistributionChart from './HoldingDistributionChart';
+import HoldingChangeChart from './HoldingChangeChart';
 
 interface IndicatorAreaProps {
   className?: string;
@@ -207,10 +209,18 @@ const IndicatorArea: React.FC<IndicatorAreaProps> = ({ className }) => {
     );
   }
 
-  // 模版2：显示净持六、趋势六、盈亏六、饼图二（单格）
+  // 模版2：显示饼图二指标组（持仓分布环图和持仓变化环图）
   return (
-    <div className={cn("w-full h-full flex items-center justify-center", className)}>
-      <div className="text-gray-400">模版2功能开发中...</div>
+    <div className={cn("w-full h-full flex", className)}>
+      {/* 左侧：持仓变化环图 */}
+      <div className="w-1/2 h-full border-r border-gray-600">
+        <HoldingChangeChart className="h-full" />
+      </div>
+
+      {/* 右侧：持仓分布环图 */}
+      <div className="w-1/2 h-full">
+        <HoldingDistributionChart className="h-full" />
+      </div>
     </div>
   );
 };

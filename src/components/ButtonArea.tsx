@@ -114,6 +114,25 @@ const ButtonArea: React.FC<ButtonAreaProps> = ({ className }) => {
         </button>
       ))}
 
+      {/* 饼图二按钮 */}
+      <button
+        onClick={() => {
+          if (指标区状态.template === 'template2') {
+            设置指标模版('template1');
+          } else {
+            设置指标模版('template2');
+          }
+        }}
+        className={cn(
+          "h-6 px-2 text-xs rounded transition-colors",
+          指标区状态.template === 'template2'
+            ? "bg-blue-600 text-white"
+            : "bg-gray-600 hover:bg-gray-700 text-white"
+        )}
+      >
+        饼图二
+      </button>
+
       {/* 手动更新按钮 */}
       <button
         onClick={async () => {

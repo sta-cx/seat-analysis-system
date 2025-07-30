@@ -68,10 +68,10 @@ export function createKLineConfig(data: any[]): EChartsOption {
         type: 'candlestick',
         data: data.map(item => [item.open, item.close, item.low, item.high]),
         itemStyle: {
-          color: '#00ff00', // 阳线颜色（空心绿色）
-          color0: '#ff0000', // 阴线颜色（空心红色）
-          borderColor: '#00ff00',
-          borderColor0: '#ff0000'
+          color: '#ff0000', // 阳线颜色（红色空心）
+          color0: '#00ff00', // 阴线颜色（绿色空心）
+          borderColor: '#ff0000', // 阳线边框红色
+          borderColor0: '#00ff00' // 阴线边框绿色
         }
       }
     ],

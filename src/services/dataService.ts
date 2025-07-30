@@ -323,6 +323,26 @@ export class DataService {
   }
 
   /**
+   * 获取席位分析数据
+   */
+  async getSeatAnalysisData(
+    commodityId: string,
+    days: number = 30
+  ): Promise<SeatAnalysis[]> {
+    const endDate = new Date().toISOString().split('T')[0].replace(/-/g, '');
+    const startDate = new Date(Date.now() - days * 24 * 60 * 60 * 1000)
+      .toISOString().split('T')[0].replace(/-/g, '');
+
+    const allData = await indexedDBService.query<SeatAnalysis>(TABLES.SEAT_ANALYSIS);
+
+    return allData.filter(item =>
+      item.commodity_id === commodityId &&
+      item.trade_date >= startDate &&
+      item.trade_date <= endDate
+    ).sort((a, b) => b.trade_date.localeCompare(a.trade_date));
+  }
+
+  /**
    * 关闭数据库连接
    */
   close(): void {

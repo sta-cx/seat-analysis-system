@@ -410,6 +410,55 @@ export function usePieChartData(commodityId: 品种代码 | null, tradeDate?: �
 }
 
 /**
+ * 席位分析数据Hook
+ */
+export function useSeatAnalysisData(commodityId: 品种代码 | null, days: number = 30) {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const { 获取席位分析数据, 设置席位分析数据 } = useDataStore();
+
+  const data = useMemo(() => {
+    return commodityId ? 获取席位分析数据(commodityId) : [];
+  }, [commodityId, 获取席位分析数据]);
+
+  const fetchData = useCallback(async () => {
+    if (!commodityId) return;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const seatData = await dataService.getSeatAnalysisData(commodityId, days);
+      设置席位分析数据(commodityId, seatData);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : '获取席位分析数据失败';
+      setError(errorMessage);
+      console.error('席位分析数据获取失败:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, [commodityId, days, 设置席位分析数据]);
+
+  useEffect(() => {
+    if (commodityId && data.length === 0) {
+      fetchData();
+    }
+  }, [commodityId, days, data.length, fetchData]);
+
+  const refresh = useCallback(() => {
+    fetchData();
+  }, [fetchData]);
+
+  return {
+    data,
+    loading,
+    error,
+    refresh,
+    isEmpty: data.length === 0
+  };
+}
+
+/**
  * 品种列表Hook
  */
 export function useCommodityList() {
